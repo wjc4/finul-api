@@ -38,7 +38,7 @@ def status(user_id):
     data = db.get(user_id)
     return jsonify({'state': data['state'], 'user_id': user_id})
 
-@app.route('/auth_poll/<user_id>', methods=['GET']): # phone will be polling this.
+@app.route('/auth_poll/<user_id>', methods=['GET']) # phone will be polling this.
 def poll(user_id):
     if not db.check_exist(user_id):
         return jsonify({'error': 'user_id does not exist.'})
