@@ -14,7 +14,7 @@ def transaction():
 
 @app.route('/verification', methods=['GET'])
 def verification():
-    return render_template('verification.html')
+    return render_template('verification.html', fail=False)
 
 @app.route('/success', methods=['GET'])
 def success():
@@ -68,7 +68,7 @@ def confirm_transaction(sender_id):
     receiver_data = confirm_pending(receiver_data, receiver_id)
     db.update(sender_id, sender_data)
     db.update(receiver_id, receiver_data)
-    return render_template('success.html', amount=pending['amount'], name=pending['receiver_name'], receiver_id=pending['receiver_id'], description=pending['description'])
+    return render_template('success.html', amount=pending['amount'], name=receiver_data['name'], receiver_id=pending['receiver_id'], description=pending['description'])
 
 def confirm_pending(data, id):
     pending = data['pending']

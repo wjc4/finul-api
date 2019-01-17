@@ -58,9 +58,10 @@
 
 <script type="text/javascript">
 function sendOTP(){
-    $.get('auth_quote/'+sessionStorage.getItem("userid")+'/'+sessionStorage.getItem("otpvalue"), function(data) {
-        console.log(data)
-    });
+    // $.get('auth_code/'+sessionStorage.getItem("userid")+'/'+sessionStorage.getItem("otpvalue"), function(data) {
+    //     // console.log(data)
+    // });
+    window.open('auth_code/'+sessionStorage.getItem("userid")+'/'+sessionStorage.getItem("otpvalue"), "_self");
 }
 </script>
 
@@ -79,8 +80,11 @@ function sendOTP(){
         INPUT OTP ABOVE AND CLICK SUBMIT
       {% endraw %}
     </div>
+    {% if fail %}
+      <div id="fail">OTP invalid, try again.</div>
+    {% endif %}
     <form>
-        <button type="submit" onclick="sendOTP()">SUBMIT OTP</button>
+        <button type="submit" onclick="return sendOTP()">SUBMIT OTP</button>
     </form>
 </div>
 </div>
