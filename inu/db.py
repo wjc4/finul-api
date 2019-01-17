@@ -4,6 +4,7 @@ import hashlib
 from collections import Counter
 import json
 from .password import db_dbname,db_host,db_password,db_user
+import os
 
 # CREATE TABLE inu_data (
 #     user_id VARCHAR(255) NOT NULL PRIMARY KEY,
