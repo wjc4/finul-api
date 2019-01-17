@@ -20,10 +20,14 @@ def record_transaction():
 
     sender_data = db.get(transaction['sender_id'])
     sender_data['transactions'].append(transaction)
+    if amount > sender_data['balance']:
+        return jsonify({'status': False})
+    sender_data['balance'] -= amount
     db.update(transaction['sender_id'], sender_data)
 
     receiver_data = db.get(transaction['receiver_id'])
     receiver_data['transactions'].append(transaction)
+    receiver_data['balance'] += amount
     db.update(transaction['receiver_id'], receiver_data)
 
-    return jsonify(transaction)
+    return jsonify({'status': True, 'transaction': transaction})

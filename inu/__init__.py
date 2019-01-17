@@ -13,6 +13,8 @@ db = DBConnection()
 # import inu.routes.hardcode
 import inu.routes.login
 import inu.routes.otp
+import inu.routes.register
+import inu.routes.authenticate
 import inu.routes.transactions
 
 
