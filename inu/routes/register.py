@@ -6,7 +6,7 @@ from inu import db
 import pyotp
 
 @app.route('/register/<user_id>', methods=['GET'])
-def evaluate():
+def register():
     random_secret = pyotp.random_base32()
     user_data = {}
     user_data['secret'] = random_secret
