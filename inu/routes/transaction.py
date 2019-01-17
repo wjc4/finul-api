@@ -10,8 +10,6 @@ def pending_transaction():
     transaction = {}
     transaction['sender_id'] = data.get('sender_id')
     transaction['receiver_id'] = data.get('receiver_id')
-    transaction['sender_name'] = data.get('sender_name')
-    transaction['receiver_name'] = data.get('receiver_name')
     transaction['description'] = data.get('description')
     transaction['amount'] = data.get('amount')
 
@@ -22,7 +20,7 @@ def pending_transaction():
     transaction['date'] = date
     transaction['time'] = time
 
-    if not db.check_exist(sender_id):
+    if not db.check_exist(transaction['sender_id']):
         return jsonify({'error': 'sender_id does not exist.', 'user_id': transaction['sender_id']})
 
     sender_data = db.get(transaction['sender_id'])
