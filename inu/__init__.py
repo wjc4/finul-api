@@ -12,6 +12,7 @@ db = DBConnection()
 # import inu.routes.square
 # import inu.routes.hardcode
 import inu.routes.login
+import inu.routes.otp
 
 
 # if 'DYNO' in os.environ:
