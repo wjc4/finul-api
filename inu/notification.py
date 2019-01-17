@@ -7,12 +7,11 @@ from email import encoders
 import datetime
 import os
 
-def emailOTPtoUser(targetAddress):
+def email_tx(targetAddress, amount=0.00):
     serviceAddress = os.environ['email_addr']
     servicePassword = os.environ['email_pass']
 
     today = datetime.date.today().strftime('%d %b %Y')
-    amount = 123.00
 
     msg = MIMEMultipart()
     msg['From'] = serviceAddress
