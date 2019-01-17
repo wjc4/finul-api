@@ -10,9 +10,12 @@ class SNSConnection:
         print("connecting to aws sns")
         self.client = boto3.client(
             "sns",
-            aws_access_key_id=os.environ['aws_access_key_id'],
-            aws_secret_access_key=os.environ['aws_secret_access_key'],
-            region_name=os.environ['region']
+            # aws_access_key_id=os.environ['aws_access_key_id'],
+            # aws_secret_access_key=os.environ['aws_secret_access_key'],
+            # region_name=os.environ['region']
+            aws_access_key_id='AKIAII3WXXP4Q6D2ZBHA',
+            aws_secret_access_key='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',
+            region_name='ap-southeast-1'
         )
         # self.client = boto3.client(
         #     "sns",

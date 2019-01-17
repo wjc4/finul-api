@@ -1,8 +1,24 @@
-from flask import request, jsonify
+from flask import request, jsonify, render_template
 import datetime
 
 from inu import application as app
 from inu import db
+
+@app.route('/transaction', methods=['GET'])
+def transaction():
+    return render_template('index.html')
+
+@app.route('/loading', methods=['GET'])
+def loading():
+    return render_template('loading.html')
+
+@app.route('/verification', methods=['GET'])
+def verification():
+    return render_template('verification.html')
+
+@app.route('/success', methods=['GET'])
+def success():
+    return render_template('success.html')
 
 @app.route('/pending_transaction', methods=['POST'])
 def pending_transaction():

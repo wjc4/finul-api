@@ -2,7 +2,7 @@ import os
 import logging
 import sys
 from flask import Flask
-application = Flask(__name__)
+application = Flask(__name__, static_url_path='/static/')
 from .db import *
 from .sns import *
 
