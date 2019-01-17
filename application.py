@@ -23,6 +23,8 @@ if __name__ == "__main__":
     #     consoleHandler.setFormatter(logFormatter)
     #     rootLogger.addHandler(consoleHandler)
 
-        # logger.info("Starting application ...")
-    application.run(host="0.0.0.0", port=80)
+    # logger.info("Starting application ...")
+    application.run()
+    ### this is for vm
+    # application.run(host="0.0.0.0", port=80)
     # app.run(debug=True)
