@@ -12,5 +12,6 @@ def evaluate():
     user_data['secret'] = random_secret
     user_data['balance'] = 10000
     user_data['transactions'] = []
+    user_data['state'] = 0
     db.insert(user_id, user_data)
     return jsonify({'secret':random_secret})
