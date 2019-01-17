@@ -52,6 +52,33 @@ body {
     text-align: center;
 }
 
+.next-button {
+    padding-top: 200px;
+    width: 100%;
+}
+
+button {
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+  outline: 0;
+  background-color: grey;
+  border: 0;
+  padding: 10px 15px;
+  color: white;
+  border-radius: 3px;
+  width: 250px;
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: 900;
+  transition-duration: 0.25s;
+}
+
+button:hover {
+  background-color: #A7FA6D;
+  color: #429607;
+}
+
 #qrcode {
     margin-left: 40%;
     margin-right: 60%;
