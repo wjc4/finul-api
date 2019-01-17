@@ -1,12 +1,14 @@
 import logging
 import os
 from inu import application
+from flask import render_template
 # logger = logging.getLogger(__name__)
 
 @application.route('/', methods=['GET'])
 def default_route():
     application.logger.info("base url requested. saying hello")
-    return "Team XYZ page. Hello"
+    # return "Team XYZ page. Hello"
+    return render_template('login.html')
 
 if __name__ == "__main__":
     # if 'DYNO' not in os.environ:
