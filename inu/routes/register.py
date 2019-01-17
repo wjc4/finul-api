@@ -6,12 +6,12 @@ from inu import db
 import pyotp
 
 @app.route('/register', methods=['POST'])
-def register():        
+def register():
     data = request.form
     user_id = data.get('user_id')
     if db.check_exist(user_id):
-        # return jsonify({'error': 'user_id already registered in database.'})
-        return render_template('index.html')
+        return jsonify({'error': 'user_id already registered in database.'})
+        # return render_template('index.html')
     name = data.get('name')
     email = data.get('email')
     phone = data.get('phone')
@@ -28,4 +28,4 @@ def register():
 
     db.insert(user_id, user_data)
     # return jsonify({'secret':random_secret})
-    return render_template('index.html')
+    return render_template('qrcode.html', secret=random_secret)

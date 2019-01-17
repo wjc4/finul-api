@@ -61,15 +61,15 @@
     <!-- Input Container -->
     <div class="col-md-12">
         <div class="input-container">
-            <form class="form">
-                Receipient's Name:
-                <input type="text" placeholder="{{this.username}}">
+            <form method="post" action="/pending_transaction">
                 Receipient's Account Number:
-                <input type="text" placeholder="017-092-9982">
+                <input type="text" placeholder="017-092-9982" name="receiver_id" />
+                Description:
+                <input type="text" placeholder="type a description" name="description" />
                 Amount to Transfer:
-                <input type="number" min="0.01" step="0.01" max="10000" value="00.00" />
-        	</form>
-            <form method="get" action="/loading">
+                <input type="number" min="0.01" step="0.01" max="10000" value="00.00" name="amount" />
+                
+                <input type="hidden" value={{this.sender_id}} name="sender_id" />
                 <button type="submit" id="transfer-button">INITIATE TRANSFER</button>
             </form>
         </div>
@@ -80,7 +80,8 @@
 <script type="text/javascript">
     var templateInfo = document.getElementById("newtrans-template").innerHTML;
     var template = Handlebars.compile(templateInfo);
-    var templateData = template({username: "Jie Xun"});
+    var userid = sessionStorage.getItem("userid");
+    var templateData = template({sender_id: userid});
 
     document.getElementById('mainDiv').innerHTML += templateData;
 </script>

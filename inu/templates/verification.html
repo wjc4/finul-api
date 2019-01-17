@@ -59,19 +59,35 @@
         ENTER ONE TIME PASSWORD
     </div>
     <div class="otpBox">
-    <div otp-input-directive options="otpInput"></div>
+    <div otp-input-directive options="otpInput" id="otp"></div>
     </div>
     <div class="help-text">
       {% raw %}
-        INPUT OTP ABOVE AND CLICK SUBMIT Output: {{otpInput.value}}
+        INPUT OTP ABOVE AND CLICK SUBMIT
       {% endraw %}
     </div>
-    <form method="get" action="/success">
-        <button type="submit">SUBMIT OTP</button>
+    <div id="submitDiv"></div>
+</div>
+</div>
+</div>
+
+<script id="submit-template" type="text/x-handlebars-template">
+    <form method="get" action="/auth_code/{{sender_id}}/{{otp}}">
+        <button type="submit" onclick="auth_code()">SUBMIT OTP</button>
     </form>
-</div>
-</div>
-</div>
+</script>
+
+<script type="text/javascript">
+    var templateInfo = document.getElementById("submit-template").innerHTML;
+    var template = Handlebars.compile(templateInfo);
+    var userid = sessionStorage.getItem("userid");
+    var otp = document.getElementById("otp").innerHTML;
+    var templateData = template({sender_id: userid, otp:otp});
+    console.log("HIHI")
+    console.log(otp);
+    console.log(userid);
+    document.getElementById('submitDiv').innerHTML += templateData;
+</script>
 
 <!-- Transaction List -->
 <div class="right-block">

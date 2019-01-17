@@ -1,4 +1,4 @@
-from flask import request, jsonify
+from flask import request, jsonify, render_template
 
 from inu import application as app
 from inu import db
@@ -20,7 +20,9 @@ def authenticate_code(user_id, code):
     if status:
         data['state'] = 2
         db.update(user_id, data)
-    return jsonify({'status': status, 'user_id': user_id})
+        return render_template('success.html')
+    # return jsonify({'status': status, 'user_id': user_id})
+    
 
 # @app.route('/auth_start/<user_id>', methods=['GET']) # browser will call this when a transaction is requested.
 # def start(user_id):

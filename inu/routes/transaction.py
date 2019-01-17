@@ -8,9 +8,9 @@ from inu import db
 def transaction():
     return render_template('index.html')
 
-@app.route('/loading', methods=['GET'])
-def loading():
-    return render_template('loading.html')
+# @app.route('/loading', methods=['GET'])
+# def loading():
+#     return render_template('loading.html')
 
 @app.route('/verification', methods=['GET'])
 def verification():
@@ -37,7 +37,10 @@ def pending_transaction():
     transaction['time'] = time
 
     if not db.check_exist(transaction['sender_id']):
-        return jsonify({'error': 'sender_id does not exist.', 'user_id': transaction['sender_id']})
+        return jsonify({'error': 'sender_id {} does not exist.', 'sender_id': transaction['sender_id']})
+
+    if not db.check_exist(transaction['receiver_id']):
+        return jsonify({'error': 'receiver_id {} does not exist.', 'receiver_id': transaction['receiver_id']})
 
     sender_data = db.get(transaction['sender_id'])
     sender_data['pending'] = transaction
@@ -47,7 +50,8 @@ def pending_transaction():
     receiver_data['pending'] = transaction
     db.update(transaction['receiver_id'], receiver_data)
 
-    return jsonify({'state': 1, 'user_id': transaction['sender_id']})
+    # return jsonify({'state': 1, 'user_id': transaction['sender_id']})
+    return render_template('loading.html')
 
 @app.route('/confirm_transaction/<sender_id>', methods=['GET'])
 def confirm_transaction(sender_id):
