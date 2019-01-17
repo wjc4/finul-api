@@ -121,6 +121,7 @@ def get_transactions(user_id):
 @app.route('/reject_transaction/<user_id>', methods=['GET'])
 def reject_transactions(user_id):
     data = db.get(user_id)
+    print(data)
     trans = data['pending']
     data['pending'] = None
     data['state'] = 0
