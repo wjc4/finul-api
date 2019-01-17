@@ -37,7 +37,7 @@ class DBConnection:
     #         return result
 
     def insert(self, user_id, json_data):
-        query = "INSERT INTO inu_data VALUES (%s, %s);"
+        query = "INSERT INTO finul_data VALUES (%s, %s);"
         data = (user_id, json.dumps(json_data))
         self.cur.execute(query, data)
         self.conn.commit()
@@ -49,7 +49,7 @@ class DBConnection:
     def get(self, user_id):
         print("getting user data")
         if self.check_exist(user_id):
-            query = "SELECT user_data FROM inu_data WHERE user_id = '{}';".format(
+            query = "SELECT user_data FROM finul_data WHERE user_id = '{}';".format(
                 user_id)
             self.cur.execute(query)
             result = self.cur.fetchone()[0]
@@ -62,7 +62,7 @@ class DBConnection:
 
     def update(self, user_id, json_data):
         print(json_data)
-        query = "UPDATE inu_data SET user_data = %s WHERE user_id = %s;"
+        query = "UPDATE finul_data SET user_data = %s WHERE user_id = %s;"
         data = (json.dumps(json_data), user_id)
         self.cur.execute(query, data)
         self.conn.commit()
@@ -74,7 +74,7 @@ class DBConnection:
 
     def check_exist(self, user_id):
         # Check if email exists in User Table
-        query = "SELECT * FROM inu_data WHERE user_id = '{}';".format(
+        query = "SELECT * FROM finul_data WHERE user_id = '{}';".format(
             user_id)
         self.cur.execute(query)
         return self.cur.rowcount
