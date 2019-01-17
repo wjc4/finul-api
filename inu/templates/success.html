@@ -37,7 +37,7 @@
 <div class="row">
     <img src="{{ url_for('static', filename='img/success.png') }}" alt="">
     <div class="loadingtext">
-        AMOUNT HAS BEEN TRANSFERRED TO XXXX
+        {{amount}} HAS BEEN TRANSFERRED TO {{name}}, {{receiver_id}}, {{description}}
     </div>
     <form method="get" action="/transaction">
         <button type="submit">MAKE NEW TRANSACTION</button>
