@@ -61,8 +61,8 @@ def confirm_transaction(sender_id):
     sender_data = db.get(sender_id)
 
     pending = sender_data['pending']
-    amount = pending['amount']
-    if float(amount) > sender_data['balance']:
+    amount = float(pending['amount'])
+    if amount > sender_data['balance']:
         return jsonify({'error': 'Account has insufficient balance for this transaction.'})
 
     receiver_id = pending['receiver_id']
@@ -117,3 +117,17 @@ def get_transactions(user_id):
         all_transactions.append(packaged)
 
     return jsonify({'all_transactions': all_transactions})
+
+@app.route('/reject_transaction/<user_id>', methods=['GET'])
+def reject_transactions(user_id):
+    data = db.get(user_id)
+    trans = data['pending']
+    data['pending'] = None
+    data['state'] = 0
+    receiver_id = trans['receiver_id']
+    receiver_data = db.get(receiver_id)
+    receiver_data['pending'] = None
+    receiver_data['state'] = 0
+    db.update(user_id, data)
+    db.update(receiver_id, receiver_data)
+    return jsonify({'state': 0})
