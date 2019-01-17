@@ -47,9 +47,6 @@ def pending_transaction():
     sender_data['pending'] = transaction
     sender_data['state'] = 1
     db.update(transaction['sender_id'], sender_data)
-    receiver_data = db.get(transaction['receiver_id'])
-    receiver_data['pending'] = transaction
-    db.update(transaction['receiver_id'], receiver_data)
 
     # return jsonify({'state': 1, 'user_id': transaction['sender_id']})
     return render_template('loading.html')
@@ -68,7 +65,9 @@ def confirm_transaction(sender_id):
     receiver_id = pending['receiver_id']
     receiver_data = db.get(receiver_id)
     sender_data = confirm_pending(sender_data, sender_id)
-    receiver_data = confirm_pending(receiver_data, receiver_id)
+
+    receiver_data['balance'] += pending['amount']
+    receiver_data['transactions'].append(pending)
     db.update(sender_id, sender_data)
     db.update(receiver_id, receiver_data)
 

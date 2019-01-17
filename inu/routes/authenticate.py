@@ -51,15 +51,16 @@ def confirm_transaction(sender_id):
     sender_data = db.get(sender_id)
 
     pending = sender_data['pending']
-    amount = pending['amount']
-    if float(amount) > sender_data['balance']:
+    amount = float(pending['amount'])
+    if amount > sender_data['balance']:
         return jsonify({'error': 'Account has insufficient balance for this transaction.'})
 
     receiver_id = pending['receiver_id']
     receiver_data = db.get(receiver_id)
     receiver_name = receiver_data['name']
     sender_data = confirm_pending(sender_data, sender_id)
-    receiver_data = confirm_pending(receiver_data, receiver_id)
+    receiver_data['balance'] += pending['amount']
+    receiver_data['transactions'].append(pending)
     db.update(sender_id, sender_data)
     db.update(receiver_id, receiver_data)
     if amount >= 1000:
