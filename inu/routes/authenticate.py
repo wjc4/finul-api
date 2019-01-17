@@ -7,7 +7,22 @@ import pyotp
 
 # STATES IN DB: 1 (transaction pending 2FA confirmation), 2 (2FA passed), 0 (no transaction pending)
 
-@app.route('/auth_code/<user_id>/<code>', methods=['GET']) # either phone or browser can call this.
+@app.route('/auth_phone/<user_id>/<code>', methods=['GET']) # phone will call this to authenticate.
+def authenticate_phone(user_id, code):
+    if not db.check_exist(user_id):
+        return jsonify({'error': 'user_id does not exist.'})
+    data = db.get(user_id)
+    secret = data['secret']
+    totp = pyotp.TOTP(secret)
+
+    # OTP verified for current time
+    status = totp.verify(code)
+    if status:
+        data['state'] = 2
+        db.update(user_id, data)
+    return jsonify({'status': status})
+
+@app.route('/auth_code/<user_id>/<code>', methods=['GET']) # browser will call this to authenticate.
 def authenticate_code(user_id, code):
     if not db.check_exist(user_id):
         return jsonify({'error': 'user_id does not exist.'})
@@ -52,15 +67,6 @@ def confirm_pending(data, id):
     data['state'] = 0 # reset to 0 (no transaction pending) after confirming transfer
     data['transactions'].append(pending)
     return data
-    
-# @app.route('/auth_start/<user_id>', methods=['GET']) # browser will call this when a transaction is requested.
-# def start(user_id):
-#     if not db.check_exist(user_id):
-#         return jsonify({'error': 'user_id does not exist.'})
-#     data = db.get(user_id)
-#     data['state'] = 1
-#     db.update(user_id, data)
-#     return jsonify({'state': 1})
 
 @app.route('/auth_status/<user_id>', methods=['GET']) # browser will be polling this.
 def status(user_id):
