@@ -7,9 +7,9 @@ import pyotp
 
 @app.route('/register/<user_id>', methods=['GET'])
 def register(user_id):
-	if db.check_exist(user_id):
-    	return jsonify({'error': 'user_id already registered in database.'})
-    	
+    if db.check_exist(user_id):
+        return jsonify({'error': 'user_id already registered in database.'})
+        
     random_secret = pyotp.random_base32()
     user_data = {}
     user_data['secret'] = random_secret
