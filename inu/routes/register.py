@@ -26,4 +26,5 @@ def register():
     user_data['pending'] = None
 
     db.insert(user_id, user_data)
-    return jsonify({'secret':random_secret})
+    # return jsonify({'secret':random_secret})
+    return None
