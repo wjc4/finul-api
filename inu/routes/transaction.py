@@ -39,7 +39,7 @@ def confirm_transaction(sender_id):
 
     pending = sender_data['pending']
     amount = pending['amount']
-    if amount > sender_data['balance']:
+    if float(amount) > sender_data['balance']:
         return jsonify({'error': 'Account has insufficient balance for this transaction.'})
 
     receiver_id = pending['receiver_id']
@@ -55,9 +55,9 @@ def confirm_pending(data, id):
     pending = data['pending']
     amount = pending['amount']
     if id == pending['sender_id']:
-        data['balance'] -= amount
+        data['balance'] -= float(amount)
     elif id == pending['receiver_id']:
-        data['balance'] += amount
+        data['balance'] += float(amount)
     data['pending'] = None
     data['state'] = 0 # reset to 0 (no transaction pending) after confirming transfer
     data['transactions'].append(pending)
