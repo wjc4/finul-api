@@ -15,10 +15,8 @@ import os
 class DBConnection:
     def __init__(self):
         print("connecting to db")
-        # self.conn = psycopg2.connect(
-        #     host=os.environ['db_host'], dbname=os.environ['db_dbname'], user=os.environ['db_user'], password=os.environ['db_password'])
         self.conn = psycopg2.connect(
-            host='129.213.105.231', dbname='DATABASE_NAME', user='USER_NAME', password='password')
+            host=os.environ['db_host'], dbname=os.environ['db_dbname'], user=os.environ['db_user'], password=os.environ['db_password'])
         self.cur = self.conn.cursor()
         print("connected to db")
 
