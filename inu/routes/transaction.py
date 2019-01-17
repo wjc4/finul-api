@@ -16,7 +16,8 @@ def record_transaction():
     transaction['date'] = data.get('date')
     transaction['time'] = data.get('time')
 
-    # if not db.check_exist(transaction['sender_id']): # assume they exist.
+    if not db.check_exist(sender_id):
+        return jsonify({'error': 'sender_id does not exist.'})
 
     sender_data = db.get(transaction['sender_id'])
     sender_data['transactions'].append(transaction)
