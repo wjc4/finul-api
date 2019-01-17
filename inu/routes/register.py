@@ -1,4 +1,4 @@
-from flask import request, jsonify
+from flask import request, jsonify, render_template
 
 from inu import application as app
 from inu import db
@@ -26,5 +26,5 @@ def register():
     user_data['pending'] = None
 
     db.insert(user_id, user_data)
-    # return jsonify({'secret':random_secret})
-    return None
+    return jsonify({'secret':random_secret})
+    # return render_template('')
