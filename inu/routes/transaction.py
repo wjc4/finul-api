@@ -37,10 +37,10 @@ def pending_transaction():
     transaction['time'] = time
 
     if not db.check_exist(transaction['sender_id']):
-        return jsonify({'error': 'sender_id {} does not exist.', 'sender_id': transaction['sender_id']})
+        return jsonify({'error': 'sender_id does not exist.', 'sender_id': transaction['sender_id']})
 
     if not db.check_exist(transaction['receiver_id']):
-        return jsonify({'error': 'receiver_id {} does not exist.', 'receiver_id': transaction['receiver_id']})
+        return jsonify({'error': 'receiver_id does not exist.', 'receiver_id': transaction['receiver_id']})
 
     sender_data = db.get(transaction['sender_id'])
     sender_data['pending'] = transaction
@@ -81,3 +81,31 @@ def confirm_pending(data, id):
     data['state'] = 0 # reset to 0 (no transaction pending) after confirming transfer
     data['transactions'].append(pending)
     return data
+
+@app.route('/get_transactions/<user_id>', methods=['GET'])
+def get_transactions(user_id):
+    if not db.check_exist(user_id):
+        return jsonify({'error': 'user_id does not exist.', 'user_id': user_id})
+    data = db.get(user_id)
+    transactions = data['transactions']
+    all_transactions = []
+    for i in range(len(transactions)-1, -1):
+        packaged = {}
+        t = transactions[i]
+        if t['sender_id'] == user_id:
+            receiver_data = db.get(t['receiver_id'])
+            receiver_name = receiver_data['name']
+            packaged['message'] = 'SENT TO {}'.format(receiver_name)
+            packaged['dt'] = 'on {} at {}'.format(t['date'], t['time'])
+            packaged['amount'] = '-MYR{}'.format(t['amount'])
+            packaged['color'] = 'red'
+        elif t['receiver_id'] == user_id:
+            packaged['message'] = 'RECEIVED'
+            packaged['dt'] = 'on {} at {}'.format(t['date'], t['time'])
+            packaged['amount'] = 'MYR{}'.format(t['amount'])
+            packaged['color'] = 'green'
+        else:
+            return jsonify({'error': 'user_id not found in transaction'})
+        all_transactions.append(packaged)
+
+    return jsonify({'all_transactions': all_transactions})
