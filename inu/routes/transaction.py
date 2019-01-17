@@ -53,6 +53,8 @@ def pending_transaction():
     # return jsonify({'state': 1, 'user_id': transaction['sender_id']})
     return render_template('loading.html')
 
+from inu import email_tx
+
 @app.route('/confirm_transaction/<sender_id>', methods=['GET'])
 def confirm_transaction(sender_id):
     sender_data = db.get(sender_id)
@@ -68,6 +70,10 @@ def confirm_transaction(sender_id):
     receiver_data = confirm_pending(receiver_data, receiver_id)
     db.update(sender_id, sender_data)
     db.update(receiver_id, receiver_data)
+
+    if amount >= 1000:
+        email_tx(sender_data['email'], amount)
+        # send sms
     return render_template('success.html', amount=pending['amount'], name=receiver_data['name'], receiver_id=pending['receiver_id'], description=pending['description'])
 
 def confirm_pending(data, id):

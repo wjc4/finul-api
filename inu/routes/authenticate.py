@@ -44,6 +44,8 @@ def authenticate_code(user_id, code):
         return render_template('verification.html', fail=True)
     # return jsonify({'status': status, 'user_id': user_id})
 
+from inu import email_tx
+
 def confirm_transaction(sender_id):
     sender_data = db.get(sender_id)
 
@@ -58,6 +60,9 @@ def confirm_transaction(sender_id):
     receiver_data = confirm_pending(receiver_data, receiver_id)
     db.update(sender_id, sender_data)
     db.update(receiver_id, receiver_data)
+    if amount >= 1000:
+        email_tx(sender_data['email'], amount)
+        # send sms
     return pending
     # return jsonify({'status': True, 'transaction': pending})
 
