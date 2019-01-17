@@ -6,7 +6,7 @@ import json
 # from .password import db_dbname,db_host,db_password,db_user
 import os
 
-# CREATE TABLE inu_data (
+# CREATE TABLE finul_data (
 #     user_id VARCHAR(255) NOT NULL PRIMARY KEY,
 #     user_data JSON
 # );
