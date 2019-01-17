@@ -2,6 +2,7 @@ from flask import request, jsonify, render_template
 
 from inu import application as app
 from inu import db
+from inu import sns
 
 import pyotp
 
@@ -56,6 +57,7 @@ def confirm_transaction(sender_id):
 
     receiver_id = pending['receiver_id']
     receiver_data = db.get(receiver_id)
+    receiver_name = receiver_data['name']
     sender_data = confirm_pending(sender_data, sender_id)
     receiver_data = confirm_pending(receiver_data, receiver_id)
     db.update(sender_id, sender_data)
@@ -63,6 +65,7 @@ def confirm_transaction(sender_id):
     if amount >= 1000:
         email_tx(sender_data['email'], amount)
         # send sms
+        sns.insert(sender_data['phone'], receiver_name, amount)
     return pending
     # return jsonify({'status': True, 'transaction': pending})
 

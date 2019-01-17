@@ -3,6 +3,7 @@ import datetime
 
 from inu import application as app
 from inu import db
+from inu import sns
 
 @app.route('/transaction', methods=['GET'])
 def transaction():
@@ -74,6 +75,7 @@ def confirm_transaction(sender_id):
     if amount >= 1000:
         email_tx(sender_data['email'], amount)
         # send sms
+        sns.insert(sender_data['phone'],receiver_data['name'],amount)
     return render_template('success.html', amount=pending['amount'], name=receiver_data['name'], receiver_id=pending['receiver_id'], description=pending['description'])
 
 def confirm_pending(data, id):
