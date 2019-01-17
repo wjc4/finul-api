@@ -18,6 +18,9 @@
 <!-- Handlebars JS -->
 <script src="{{ url_for('static', filename='js/handlebars-v4.0.12.js') }}"></script>
 
+<!-- jquery -->
+<script src="{{ url_for('static', filename='js/jquery-1.9.1.min.js') }}"></script>
+
 <!-- otp stuff -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.3/angular.min.js"></script>
   <script src="{{ url_for('static', filename='js/otpInputDirective.min.js') }}"></script>
@@ -30,9 +33,11 @@
             type:"text",
             onDone: function(value){
                 console.log(value);
+                sessionStorage.setItem("otpvalue", value);
             },
             onChange: function(value){
                 console.log(value);
+                sessionStorage.setItem("otpvalue", value);
             }
         }
       });
@@ -51,6 +56,15 @@
 </div>
 <div class="main-block">
 
+<script type="text/javascript">
+function sendOTP(){
+    // $.get('auth_code/'+sessionStorage.getItem("userid")+'/'+sessionStorage.getItem("otpvalue"), function(data) {
+    //     // console.log(data)
+    // });
+    window.open('auth_code/'+sessionStorage.getItem("userid")+'/'+sessionStorage.getItem("otpvalue"), "_self");
+}
+</script>
+
 <!-- Transaction process -->
 <div class="left-block">
 <div class="container-fluid">
@@ -66,18 +80,23 @@
         INPUT OTP ABOVE AND CLICK SUBMIT
       {% endraw %}
     </div>
-    <div id="submitDiv"></div>
-</div>
-</div>
-</div>
-
-<script id="submit-template" type="text/x-handlebars-template">
-    <form method="get" action="/auth_code/{{sender_id}}/{{otp}}">
-        <button type="submit" onclick="auth_code()">SUBMIT OTP</button>
+    {% if fail %}
+      <div id="fail">OTP invalid, try again.</div>
+    {% endif %}
+    <form>
+        <button type="submit" onclick="return sendOTP()">SUBMIT OTP</button>
     </form>
-</script>
+</div>
+</div>
+</div>
 
-<script type="text/javascript">
+<!-- <script id="submit-template" type="text/x-handlebars-template">
+    <form method="get" action="/auth_code/{{sender_id}}/{{otp}}">
+        <button type="submit">SUBMIT OTP</button>
+    </form>
+</script> -->
+
+<!-- <script type="text/javascript">
     var templateInfo = document.getElementById("submit-template").innerHTML;
     var template = Handlebars.compile(templateInfo);
     var userid = sessionStorage.getItem("userid");
@@ -87,7 +106,7 @@
     console.log(otp);
     console.log(userid);
     document.getElementById('submitDiv').innerHTML += templateData;
-</script>
+</script> -->
 
 <!-- Transaction List -->
 <div class="right-block">

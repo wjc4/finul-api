@@ -32,7 +32,13 @@
     <script type="text/javascript">
         new QRCode(document.getElementById("qrcode"), "{{ secret }}" );
     </script>
-
+    <div class="col-md-12">
+        <div class="next-button">
+            <form method="get" action="/transaction">
+                <button type="submit" id="proceed-button">PROCEED</button>
+            </form>
+        </div>
+    </div>
 </div>
 
 

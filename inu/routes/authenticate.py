@@ -36,7 +36,12 @@ def authenticate_code(user_id, code):
         data['state'] = 2
         db.update(user_id, data)
         trans = confirm_transaction(user_id)
-        return render_template('success.html', amount=trans['amount'], name=trans['receiver_name'], receiver_id=trans['receiver_id'], description=trans['description'])
+        receiver_data = db.get(trans['receiver_id'])
+        receiver_name = receiver_data['name']
+        return render_template('success.html', amount=trans['amount'], name=receiver_name, receiver_id=trans['receiver_id'], description=trans['description'])
+    else:
+        print('authentication failed.')
+        return render_template('verification.html', fail=True)
     # return jsonify({'status': status, 'user_id': user_id})
 
 def confirm_transaction(sender_id):
