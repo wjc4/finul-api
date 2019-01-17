@@ -3,7 +3,7 @@ from flask import request, jsonify
 from inu import application as app
 from inu import db
 
-@app.route('/transactions', methods=['POST'])
+@app.route('/transaction', methods=['POST'])
 def record_transaction():
     data = request.form
     transaction = {}
@@ -23,6 +23,7 @@ def record_transaction():
     if amount > sender_data['balance']:
         return jsonify({'status': False})
     sender_data['balance'] -= amount
+    sender_data['state'] = 0 # reset the state to 0 (no transaction pending) after transaction has taken place
     db.update(transaction['sender_id'], sender_data)
 
     receiver_data = db.get(transaction['receiver_id'])
