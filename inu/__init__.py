@@ -4,10 +4,10 @@ import sys
 from flask import Flask
 application = Flask(__name__)
 from .db import *
-# from .sns import *
+from .sns import *
 
 db = DBConnection()
-# sns = SNSConnection()
+sns = SNSConnection()
 
 # import inu.routes.square
 # import inu.routes.hardcode
