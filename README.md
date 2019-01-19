@@ -1,4 +1,4 @@
-# INU-API
+# FINALS INU-API
 
 # environment
 python 3.6
