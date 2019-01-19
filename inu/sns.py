@@ -2,6 +2,7 @@ import boto3
 # from .password import get_aws_access_key_id, get_aws_secret_access_key, get_number, get_region
 
 import datetime
+from dateutil import tz, parser
 import os
 
 class SNSConnection:
@@ -30,10 +31,13 @@ class SNSConnection:
         print("connected to aws sns")
 
     def insert(self, sms_number, target_name, amount=0.00):
-        today = datetime.date.today().strftime('%d/%m %H:%M')
-        message = "Your transfer to " + target_name + " for RM" + str(amount) + " on " + today + " was successful. If unauthorised, call +603 6204 7788"
-        # Send your sms message.
-        self.client.publish(
-            PhoneNumber=sms_number,
-            Message=message
-        )
+        if os.getenv('SMS_ENABLE', 0):
+            now = datetime.datetime.now().astimezone(tz.tzstr('GMT+8'))
+            dt = now.strftime('%d/%m %H:%M')
+            # today = datetime.date.today().strftime('%d/%m %H:%M')
+            message = "Your transfer to " + target_name + " for RM" + str(amount) + " on " + dt + " was successful. If unauthorised, call +603 6204 7788"
+            # Send your sms message.
+            self.client.publish(
+                PhoneNumber=sms_number,
+                Message=message
+            )
